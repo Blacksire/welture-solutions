@@ -1,9 +1,8 @@
 "use cleint";
 import { NextResponse } from "next/server";
-import mail from "@sendgrid/mail";
+import { Resend } from "resend";
 
-// Set the SendGrid API key
-mail.setApiKey(process.env.SENDGRID_API_KEY || "");
+const resend = new Resend(process.env.RESEND_API_KEY || "");
 
 export async function POST(req) {
   try {
@@ -31,27 +30,31 @@ export async function POST(req) {
 
     const data = {
       to: "enquiries@welturesolution.com",
-      from: "noreply@twg2c2p.com",
+      from: "enquiries@welturesolution.com",
       subject: "Inquiry Form",
       text: message,
       html: message.replace(/\r\n/g, "<br>"),
     };
 
-    await mail.send(data);
+    const { error } = await resend.emails.send(data);
+
+    if (error) {
+      return NextResponse.json(
+        { status: "error", message: `Message failed: ${error.message}` },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json({
       status: "success",
       message: "Your message was sent successfully.",
     });
   } catch (error) {
-    console.error(
-      "SendGrid Error:",
-      error.response ? error.response.body : error
-    );
+    console.error("Resend Error:", error);
 
     return NextResponse.json(
       { status: "error", message: `Message failed: ${error.message}` },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

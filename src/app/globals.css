@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #121a21;
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+  overflow: hidden;
+  font-family: Montserrat;
+  font-weight: 500;
+}
+html {
+  overflow-x: hidden;
+  /* scroll-behavior: smooth; */
+}

@@ -29,8 +29,8 @@ export async function POST(req) {
     `;
 
     const data = {
-      to: "enquiries@welturesolution.com",
-      from: "enquiries@welturesolution.com",
+      to: "enquiries@welturesolutions.com",
+      from: "enquiries@welturesolutions.com",
       subject: "Inquiry Form",
       text: message,
       html: message.replace(/\r\n/g, "<br>"),
